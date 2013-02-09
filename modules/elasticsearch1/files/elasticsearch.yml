@@ -44,11 +44,11 @@ cluster.name: vagrant_cluster
 #
 # Allow this node to be eligible as a master node (enabled by default):
 #
-# node.master: true
+node.master: false
 #
 # Allow this node to store data (enabled by default):
 #
-# node.data: true
+node.data: true
 
 # You can exploit these settings to design advanced cluster topologies.
 #
@@ -196,7 +196,7 @@ path.logs: /var/log/elasticsearch
 
 # Set both 'bind_host' and 'publish_host':
 #
-network.host: 44.44.44.220
+network.host: 44.44.44.221
 
 # Set a custom port for the node to node communication (9300 by default):
 #
@@ -308,7 +308,9 @@ network.host: 44.44.44.220
 # 2. Configure an initial list of master nodes in the cluster
 #    to perform discovery when new nodes (master or data) are started:
 #
-#discovery.zen.ping.unicast.hosts: ["44.44.44.220[9300-9400]"]
+# discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
+
+#discovery.zen.ping.unicast.hosts: ["44.44.44.220:9300"]
 
 # EC2 discovery allows to use AWS EC2 API in order to perform discovery.
 #
