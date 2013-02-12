@@ -1,16 +1,10 @@
-class elasticsearch::params {
-  $version = "0.20.4"
-  $java_package = "openjdk-6-jre-headless"
-  $dbdir = "/var/lib/elasticsearch"
-  $logdir = "/var/log/elasticsearch"
-}
-
 class elasticsearch(
-  $version = $elasticsearch::params::version,
-  $java_package = $elasticsearch::params::java_package,
-  $dbdir = $elasticsearch::params::dbdir,
-  $logdir = $elasticsearch::params::logdir
-) inherits elasticsearch::params {
+  $version = "0.20.4",
+  $java_package = "openjdk-6-jre-headless",
+  $dbdir = "/var/lib/elasticsearch",
+  $logdir = "/var/log/elasticsearch",
+  $network_host = "localhost"
+) {
   $tarchive = "elasticsearch-${version}.tar.gz"
   $tmptarchive = "/tmp/${tarchive}"
   $tmpdir = "/tmp/elasticsearch-${version}"
@@ -106,18 +100,14 @@ class elasticsearch(
 
   file { $configfile:
     ensure => present,
-    source => ["puppet:///files/site-elasticsearch/${fqdn}/elasticsearch.yml",
-               "puppet:///files/site-elasticsearch/elasticsearch.yml",
-               "puppet:///modules/elasticsearch/elasticsearch.yml"],
+    content => [template("elasticsearch/elasticsearch.yml.erb")],
     owner  => root,
     group  => root,
   }
 
   file { $logconfigfile:
     ensure => present,
-    source => ["puppet:///files/site-elasticsearch/${fqdn}/logging.yml",
-               "puppet:///files/site-elasticsearch/logging.yml",
-               "puppet:///modules/elasticsearch/logging.yml"],
+    source => "puppet:///modules/elasticsearch/logging.yml",
     owner  => root,
     group  => root,
   }
